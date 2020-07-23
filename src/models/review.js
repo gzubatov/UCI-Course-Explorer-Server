@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const reviewSchema = new mongoose.Schema({
 	reviewDate : {
 		type     : Date,
-		required : true
+		required : true,
+		default  : Date.now()
 	},
 	quarter    : {
 		type     : String,

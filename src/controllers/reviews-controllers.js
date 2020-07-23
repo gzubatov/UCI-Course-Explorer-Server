@@ -16,7 +16,6 @@ const addReview = async (req, res, next) => {
 	} = req.body;
 
 	const newReview = new Review({
-		reviewDate : new Date(),
 		quarter,
 		year,
 		review,
