@@ -13,7 +13,7 @@ const professorSchema = new mongoose.Schema({
 	}
 });
 
-courseSchema.index({ lastName: 1, firstName: 1 }, { unique: true });
+professorSchema.index({ lastName: 1, firstName: 1 }, { unique: true });
 
 const Professor = mongoose.model('Professor', professorSchema);
 
