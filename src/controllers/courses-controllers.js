@@ -6,23 +6,25 @@ const getAllCourses = async (req, res, next) => {
 		const courses = await Course.find({});
 		res.json({ courses });
 	} catch (e) {
-		res.status(400).send(e);
+		res.status(500).send(e);
 	}
 };
 
 const addCourse = async (req, res, next) => {
-	const { department, courseNumber } = req.body;
+	const { department, courseNumber, prereqs, description } = req.body;
 
 	const newCourse = new Course({
 		department,
-		courseNumber
+		courseNumber,
+		prereqs,
+		description
 	});
 
 	try {
 		await newCourse.save();
 		res.status(201).send({ newCourse });
 	} catch (e) {
-		res.status(400).send(e);
+		res.status(500).send(e);
 	}
 };
 
