@@ -1,4 +1,5 @@
 const express = require('express');
+require('./db/mongoose');
 const courseRoutes = require('./routes/course-routes');
 
 const app = express();
