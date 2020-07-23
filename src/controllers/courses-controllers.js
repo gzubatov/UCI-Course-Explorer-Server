@@ -3,7 +3,12 @@ const Course = require('../models/course');
 
 const getAllCourses = async (req, res, next) => {
 	try {
-		const courses = await Course.find({});
+		const courses = await Course.find({}).populate({
+			path     : 'reviews',
+			populate : {
+				path : 'professor'
+			}
+		});
 		res.json({ courses });
 	} catch (e) {
 		res.status(500).send(e);
