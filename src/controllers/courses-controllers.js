@@ -46,11 +46,16 @@ const getCoursesByDepartment = async (req, res, next) => {
 
 const getCourse = async (req, res, next) => {
 	try {
-		const courses = await Course.find({
+		const course = await Course.find({
 			department   : req.params.department,
 			courseNumber : req.params.courseNumber
+		}).populate({
+			path     : 'reviews',
+			populate : {
+				path : 'professor'
+			}
 		});
-		res.json({ courses });
+		res.json({ course });
 	} catch (e) {
 		res.status(500).send(e);
 	}
