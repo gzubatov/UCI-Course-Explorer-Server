@@ -7,6 +7,8 @@ router.get('/', coursesController.getAllCourses);
 
 router.post('/', coursesController.addCourse);
 
+router.get('/id/:id', coursesController.getCourseById);
+
 router.get('/:department', coursesController.getCoursesByDepartment);
 
 router.get('/:department/:courseNumber', coursesController.getCourse);

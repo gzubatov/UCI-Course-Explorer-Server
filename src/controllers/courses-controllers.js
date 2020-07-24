@@ -67,9 +67,24 @@ const getCourse = async (req, res, next) => {
 	}
 };
 
+const getCourseById = async (req, res, next) => {
+	try {
+		const course = await Course.findById(req.params.id).populate({
+			path     : 'reviews',
+			populate : {
+				path : 'professor'
+			}
+		});
+		res.json({ course });
+	} catch (e) {
+		res.status(500).send(e);
+	}
+};
+
 module.exports = {
 	getAllCourses,
 	addCourse,
 	getCoursesByDepartment,
-	getCourse
+	getCourse,
+	getCourseById
 };
