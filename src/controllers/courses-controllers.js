@@ -9,6 +9,7 @@ const getAllCourses = async (req, res, next) => {
 				path : 'professor'
 			}
 		});
+
 		res.json({ courses });
 	} catch (e) {
 		res.status(500).send(e);
@@ -37,6 +38,11 @@ const getCoursesByDepartment = async (req, res, next) => {
 	try {
 		const courses = await Course.find({
 			department : req.params.department
+		}).populate({
+			path     : 'reviews',
+			populate : {
+				path : 'professor'
+			}
 		});
 		res.json({ courses });
 	} catch (e) {
