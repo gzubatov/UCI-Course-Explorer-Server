@@ -69,13 +69,33 @@ const getCourse = async (req, res, next) => {
 
 const getCourseById = async (req, res, next) => {
 	try {
+		const lookup = await Course.aggregate([
+			{ $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+			{
+				$lookup : {
+					from         : 'reviews',
+					localField   : 'reviews',
+					foreignField : '_id',
+					as           : 'review'
+				}
+			},
+			{
+				$lookup : {
+					from         : 'professors',
+					localField   : 'review.professor',
+					foreignField : '_id',
+					as           : 'professorOptions'
+				}
+			}
+		]);
+
 		const course = await Course.findById(req.params.id).populate({
 			path     : 'reviews',
 			populate : {
 				path : 'professor'
 			}
 		});
-		res.json({ course });
+		res.json({ course, professorOptions: lookup[0].professorOptions });
 	} catch (e) {
 		res.status(500).send(e);
 	}
