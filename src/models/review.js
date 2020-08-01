@@ -29,49 +29,44 @@ const reviewSchema = new mongoose.Schema({
 		required : true
 	},
 	details    : {
-		grade       : {
+		grade        : {
 			type : String,
 			trim : true
 		},
-		recommend   : {
+		recommend    : {
 			type : Boolean
 		},
-		attendance  : {
+		attendance   : {
 			type : String,
 			trim : true
 		},
-		iClicker    : {
+		iClicker     : {
 			type : Boolean
 		},
-		groupWork   : {
+		groupWork    : {
 			type : String,
 			trim : true
 		},
-		homework    : {
-			type : Boolean
-		},
-		quizzes     : {
-			type : Boolean
-		},
-		exams       : {
-			type : Boolean
-		},
-		textbook    : {
+		textbook     : {
 			type : String,
 			trim : true
 		},
-		curve       : {
+		curve        : {
 			type : Boolean
 		},
-		officeHours : {
-			type : String,
-			trim : true
+		heavyReading : {
+			type : Boolean
 		}
 	},
 	professor  : {
 		type     : mongoose.Types.ObjectId,
 		required : true,
 		ref      : 'Professor'
+	},
+	course     : {
+		type     : mongoose.Types.ObjectId,
+		required : true,
+		ref      : 'Course'
 	}
 });
 

@@ -24,17 +24,23 @@ const courseSchema = new mongoose.Schema({
 		type     : String,
 		required : true,
 		trim     : true
-	},
-	reviews      : [
-		{
-			type     : mongoose.Types.ObjectId,
-			required : true,
-			ref      : 'Review'
-		}
-	]
+	}
+	// reviews      : [
+	// 	{
+	// 		type     : mongoose.Types.ObjectId,
+	// 		required : true,
+	// 		ref      : 'Review'
+	// 	}
+	// ]
 });
 
 courseSchema.index({ deparment: 1, courseNumber: 1 }, { unique: true });
+
+courseSchema.virtual('reviews', {
+	ref          : 'Review',
+	localField   : '_id',
+	foreignField : 'course'
+});
 
 courseSchema.methods.toJSON = function() {
 	const course = this;
