@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Course = require('../models/course');
+const Review = require('../models/review');
 
 const getAllCourses = async (req, res, next) => {
 	try {
@@ -69,22 +70,29 @@ const getCourse = async (req, res, next) => {
 
 const getCourseById = async (req, res, next) => {
 	try {
-		const lookup = await Course.aggregate([
-			{ $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+		const lookup = await Review.aggregate([
+			{ $match: { course: mongoose.Types.ObjectId(req.params.id) } },
 			{
-				$lookup : {
-					from         : 'reviews',
-					localField   : 'reviews',
-					foreignField : '_id',
-					as           : 'review'
+				$project : {
+					professor : 1
+				}
+			},
+			{
+				$group : {
+					_id : '$professor'
 				}
 			},
 			{
 				$lookup : {
 					from         : 'professors',
-					localField   : 'review.professor',
+					localField   : '_id',
 					foreignField : '_id',
-					as           : 'professorOptions'
+					as           : 'professor'
+				}
+			},
+			{
+				$sort : {
+					'professor.lastName' : 1
 				}
 			}
 		]);
@@ -95,7 +103,7 @@ const getCourseById = async (req, res, next) => {
 				path : 'professor'
 			}
 		});
-		res.json({ course, professorOptions: lookup[0].professorOptions });
+		res.json({ course, professorOptions: lookup });
 	} catch (e) {
 		res.status(500).send(e);
 	}
