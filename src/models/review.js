@@ -16,9 +16,8 @@ const reviewSchema = new mongoose.Schema({
 		required : true
 	},
 	review     : {
-		type     : String,
-		required : true,
-		trim     : true
+		type : String,
+		trim : true
 	},
 	difficulty : {
 		type     : Number,
@@ -44,12 +43,10 @@ const reviewSchema = new mongoose.Schema({
 			type : Boolean
 		},
 		groupWork    : {
-			type : String,
-			trim : true
+			type : Boolean
 		},
 		textbook     : {
-			type : String,
-			trim : true
+			type : Boolean
 		},
 		curve        : {
 			type : Boolean

@@ -48,7 +48,7 @@ courseSchema.virtual('reviews', {
 courseSchema.virtual('avgRatings').get(function() {
 	const course = this;
 	const reviews = course.reviews;
-	let avgDifficultyRating = 0;
+	let avgDifficulty = 0;
 	let avgWorkload = 0;
 	if (reviews.length !== 0) {
 		const totalDiff = reviews
@@ -59,11 +59,11 @@ courseSchema.virtual('avgRatings').get(function() {
 			.map((review) => review.workload)
 			.reduce((a, b) => a + b);
 
-		avgDifficultyRating = totalDiff / course.reviews.length;
+		avgDifficulty = totalDiff / course.reviews.length;
 		avgWorkload = totalWorkLoad / course.reviews.length;
 	}
 
-	return { avgDifficultyRating, avgWorkload };
+	return { avgDifficulty, avgWorkload };
 });
 
 const Course = mongoose.model('Course', courseSchema);
