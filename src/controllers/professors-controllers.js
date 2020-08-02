@@ -3,7 +3,9 @@ const Professor = require('../models/professor');
 
 const getAllProfessors = async (req, res, next) => {
 	try {
-		const professors = await Professor.find({});
+		const professors = await Professor.find({}, null, {
+			sort: { lastName: 1 }
+		});
 		res.json({ professors });
 	} catch (e) {
 		res.status(500).send(e);
