@@ -1,38 +1,41 @@
 const mongoose = require('mongoose');
 
-const courseSchema = new mongoose.Schema({
-	department   : {
-		type     : String,
-		required : true,
-		trim     : true
+const courseSchema = new mongoose.Schema(
+	{
+		department   : {
+			type     : String,
+			required : true,
+			trim     : true
+		},
+		courseNumber : {
+			type     : String,
+			required : true,
+			trim     : true
+		},
+		title        : {
+			type : String,
+			trim : true
+		},
+		description  : {
+			type     : String,
+			required : true,
+			trim     : true
+		},
+		prereqs      : {
+			type     : String,
+			required : true,
+			trim     : true
+		}
+		// reviews      : [
+		// 	{
+		// 		type     : mongoose.Types.ObjectId,
+		// 		required : true,
+		// 		ref      : 'Review'
+		// 	}
+		// ]
 	},
-	courseNumber : {
-		type     : String,
-		required : true,
-		trim     : true
-	},
-	title        : {
-		type : String,
-		trim : true
-	},
-	description  : {
-		type     : String,
-		required : true,
-		trim     : true
-	},
-	prereqs      : {
-		type     : String,
-		required : true,
-		trim     : true
-	}
-	// reviews      : [
-	// 	{
-	// 		type     : mongoose.Types.ObjectId,
-	// 		required : true,
-	// 		ref      : 'Review'
-	// 	}
-	// ]
-});
+	{ toJSON: { virtuals: true }, toObject: { getters: true } }
+);
 
 courseSchema.index({ deparment: 1, courseNumber: 1 }, { unique: true });
 
@@ -42,19 +45,17 @@ courseSchema.virtual('reviews', {
 	foreignField : 'course'
 });
 
-courseSchema.methods.toJSON = function() {
+courseSchema.virtual('avgRatings').get(function() {
 	const course = this;
-	course.populate('reviews');
-
-	const courseObject = course.toObject();
+	const reviews = course.reviews;
 	let avgDifficultyRating = 0;
 	let avgWorkload = 0;
-	if (course.reviews.length !== 0) {
-		const totalDiff = courseObject.reviews
+	if (reviews.length !== 0) {
+		const totalDiff = reviews
 			.map((review) => review.difficulty)
 			.reduce((a, b) => a + b);
 
-		const totalWorkLoad = courseObject.reviews
+		const totalWorkLoad = reviews
 			.map((review) => review.workload)
 			.reduce((a, b) => a + b);
 
@@ -62,11 +63,8 @@ courseSchema.methods.toJSON = function() {
 		avgWorkload = totalWorkLoad / course.reviews.length;
 	}
 
-	courseObject.avgDifficulty = avgDifficultyRating;
-	courseObject.avgWorkload = avgWorkload;
-
-	return courseObject;
-};
+	return { avgDifficultyRating, avgWorkload };
+});
 
 const Course = mongoose.model('Course', courseSchema);
 
