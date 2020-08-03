@@ -37,9 +37,15 @@ const addCourse = async (req, res, next) => {
 
 const getCoursesByDepartment = async (req, res, next) => {
 	try {
-		const courses = await Course.find({
-			department : req.params.department
-		}).populate({
+		const courses = await Course.find(
+			{
+				department : req.params.department
+			},
+			null,
+			{
+				sort : { courseNumber: 1 }
+			}
+		).populate({
 			path     : 'reviews',
 			populate : {
 				path : 'professor'
