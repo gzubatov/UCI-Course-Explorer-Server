@@ -34,7 +34,11 @@ const courseSchema = new mongoose.Schema(
 		// 	}
 		// ]
 	},
-	{ toJSON: { virtuals: true }, toObject: { getters: true } }
+	{
+		toJSON: { virtuals: true },
+		toObject: { getters: true },
+		collation: { locale: 'en_US', numericOrdering: true }
+	}
 );
 
 courseSchema.index({ deparment: 1, courseNumber: 1 }, { unique: true });
