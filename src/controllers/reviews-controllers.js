@@ -53,6 +53,11 @@ const addReview = async (req, res, next) => {
 		await session.commitTransaction();
 		res.status(201).send({ newReview });
 	} catch (e) {
+		if (e.code === 11000) {
+			return res
+				.status(400)
+				.send({ message: 'Professor already exists!' });
+		}
 		res.status(500).send(e);
 	}
 };
