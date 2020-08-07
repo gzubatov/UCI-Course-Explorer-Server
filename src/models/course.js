@@ -35,9 +35,9 @@ const courseSchema = new mongoose.Schema(
 		// ]
 	},
 	{
-		toJSON: { virtuals: true },
-		toObject: { getters: true },
-		collation: { locale: 'en_US', numericOrdering: true }
+		toJSON    : { virtuals: true },
+		toObject  : { getters: true },
+		collation : { locale: 'en_US', numericOrdering: true }
 	}
 );
 
@@ -46,7 +46,8 @@ courseSchema.index({ deparment: 1, courseNumber: 1 }, { unique: true });
 courseSchema.virtual('reviews', {
 	ref          : 'Review',
 	localField   : '_id',
-	foreignField : 'course'
+	foreignField : 'course',
+	options      : { sort: { _id: -1 } }
 });
 
 courseSchema.virtual('avgRatings').get(function() {
