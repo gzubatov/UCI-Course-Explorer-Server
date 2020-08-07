@@ -38,7 +38,6 @@ const addReview = async (req, res, next) => {
 		professor  : professor ? professor : newProfessor._id,
 		details,
 		course,
-		grade,
 		recommend,
 		attendance
 	});

@@ -30,7 +30,10 @@ const courseSchema = new mongoose.Schema(
 	{
 		toJSON    : { virtuals: true },
 		toObject  : { getters: true },
-		collation : { locale: 'en_US', numericOrdering: true }
+		collation : {
+			locale          : 'en_US',
+			numericOrdering : true
+		}
 	}
 );
 
