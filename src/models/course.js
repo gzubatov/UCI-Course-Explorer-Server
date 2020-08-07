@@ -26,13 +26,6 @@ const courseSchema = new mongoose.Schema(
 			required : true,
 			trim     : true
 		}
-		// reviews      : [
-		// 	{
-		// 		type     : mongoose.Types.ObjectId,
-		// 		required : true,
-		// 		ref      : 'Review'
-		// 	}
-		// ]
 	},
 	{
 		toJSON    : { virtuals: true },
@@ -47,6 +40,7 @@ courseSchema.virtual('reviews', {
 	ref          : 'Review',
 	localField   : '_id',
 	foreignField : 'course',
+	justOne      : false,
 	options      : { sort: { _id: -1 } }
 });
 

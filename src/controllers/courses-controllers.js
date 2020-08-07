@@ -76,7 +76,7 @@ const getCourse = async (req, res, next) => {
 
 const getCourseById = async (req, res, next) => {
 	try {
-		const lookup = await Review.aggregate([
+		const professorsLookup = await Review.aggregate([
 			{ $match: { course: mongoose.Types.ObjectId(req.params.id) } },
 			{
 				$project : {
@@ -109,7 +109,7 @@ const getCourseById = async (req, res, next) => {
 				path : 'professor'
 			}
 		});
-		res.json({ course, professorOptions: lookup });
+		res.json({ course, professorOptions: professorsLookup });
 	} catch (e) {
 		res.status(500).send(e);
 	}
